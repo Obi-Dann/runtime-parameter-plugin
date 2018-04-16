@@ -163,7 +163,7 @@ It returns the same parameters as `html-webpack-plugin` by default with adding `
 **webpack.config.js**
 ```js
 const RuntimeParameterPlugin = require('runtime-parameter-plugin')
-+ const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: 'index.js',
@@ -177,11 +177,11 @@ module.exports = {
         { name: 'RuntimeVariable_2', isKeySet: false }
         { name: 'RuntimeVariableSet', isKeySet: true }
     ]),      
-+    new HtmlWebpackPlugin({
-+        template: './index.ejs',
-+        inject: false,
-+        templateParameters: RuntimeParameterPlugin.htmlWebpackPluginTemplateParameters
-+    })
+    new HtmlWebpackPlugin({
+        template: './index.ejs',
+        inject: false,
+        templateParameters: RuntimeParameterPlugin.htmlWebpackPluginTemplateParameters
+    })
   ]
 }
 ```

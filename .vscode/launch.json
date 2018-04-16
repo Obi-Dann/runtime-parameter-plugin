@@ -11,7 +11,9 @@
             "cwd": "${workspaceRoot}/examples/webpack3",
             "localRoot": "${workspaceRoot}/examples/webpack3",
 			"program": "${workspaceRoot}/examples/webpack3/node_modules/webpack/bin/webpack.js",
-			"args": []
+			"args": [
+                "--watch"
+            ]
         },
         {
 			"type": "node",

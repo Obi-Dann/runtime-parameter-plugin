@@ -4,23 +4,25 @@ const ParserHelpers = require("webpack/lib/ParserHelpers");
 const ConstDependency = require("webpack/lib/dependencies/ConstDependency");
 const NullFactory = require("webpack/lib/NullFactory");
 const Template = require('webpack/lib/Template');
-const SortableSet = require('webpack/lib/util/SortableSet');
 
 const runtimeParametersExtensionKey = 'rp';
 const buildMetaKey = 'runtimeParameters';
 
 class RuntimeParameterDependency extends ConstDependency {
-    constructor(expression, range, parameterSet, parameterKey) {
+    constructor(expression, range, parameter) {
         super();
         this.expression = expression;
         this.range = range;
         this.requireWebpackRequire = true;
-        this.parameterSet = parameterSet;
-        this.parameterKey = parameterKey;
+        this.parameter = parameter;
     }
 }
 
-class RuntimeParameterWebpackPlugin {
+class RuntimeParameterPlugin {
+    /**
+     * 
+     * @param {{[key:string]: {isKeySet: boolean}}} definitions 
+     */
     constructor(definitions) {
         this.definitions = definitions;
     }
@@ -33,8 +35,8 @@ class RuntimeParameterWebpackPlugin {
             compilation.dependencyTemplates.set(RuntimeParameterDependency, new ConstDependency.Template());
 
             const handler = (parser, parserOptions) => {
-                Object.keys(definitions).forEach(name => {
-                    var request = [].concat(definitions[name]);
+                definitions.forEach(d => {
+                    const name = typeof d === 'string' ? d : d.name;
 
                     const processExpression = expr => {
                         let propertyName;
@@ -49,15 +51,15 @@ class RuntimeParameterWebpackPlugin {
                                 return false;
                         }
 
-                        const combinedName = `${name}_${propertyName}`;
+                        const combinedName = `${name}.${propertyName}`;
                         const nameIdentifier = `__webpack_runtime_parameter_${combinedName.replace(/\./g, "_dot_")}`;
-                        const expression = `__webpack_require__.${runtimeParametersExtensionKey}[${JSON.stringify(name)}][${JSON.stringify(propertyName)}]`;
+                        const expression = `__webpack_require__.${runtimeParametersExtensionKey}[${JSON.stringify(combinedName)}]`;
 
                         if (!ParserHelpers.addParsedVariableToModule(parser, nameIdentifier, expression)) {
                             return false;
                         }
 
-                        var dep = new RuntimeParameterDependency(nameIdentifier, expr.range, name, propertyName);
+                        var dep = new RuntimeParameterDependency(nameIdentifier, expr.range, combinedName);
                         dep.loc = expr.loc;
                         parser.state.current.addDependency(dep);
 
@@ -87,6 +89,8 @@ class RuntimeParameterWebpackPlugin {
             }
 
             const addParametersToEntryModulesMeta = () => {
+                const parametersPerEntry = {};
+
                 compilation.modules.forEach(module => {
                     const definedParameters = [];
 
@@ -97,8 +101,7 @@ class RuntimeParameterWebpackPlugin {
                         const readableIdentifier = module.readableIdentifier(compilation.requestShortener || compilation.moduleTemplate.requestShortener);
 
                         definedParameters.push({
-                            parameterSet: d.parameterSet,
-                            parameterKey: d.parameterKey,
+                            parameter: d.parameter,
                             usage: `${readableIdentifier}:${d.loc.start.line}:${d.loc.start.column}`
                         });
                     });
@@ -108,17 +111,26 @@ class RuntimeParameterWebpackPlugin {
                     }
 
                     for (const entryModule of getEntriesForModule(module)) {
-                        const buildMeta = entryModule.buildMeta || entryModule.meta;
-                        const meta = buildMeta[buildMetaKey] = buildMeta[buildMetaKey] || {};
-                        const parameters = meta.parameters = meta.parameters || {};
+                        const parameters = parametersPerEntry[entryModule] = parametersPerEntry[entryModule] || {};
 
                         for (const x of definedParameters) {
-                            const parameterSet = parameters[x.parameterSet] = parameters[x.parameterSet] || {};
-                            const parameter = parameterSet[x.parameterKey] =
-                                parameterSet[x.parameterKey] || { usage: new SortableSet(undefined, sortByLocale) };
+                            const parameter = parameters[x.parameter] =
+                                parameters[x.parameter] || { usage: [] };
 
-                            parameter.usage.add(x.usage);
+                            parameter.usage.push(x.usage);
                         }
+                    }
+                });
+
+                compilation.entries.forEach(entryModule => {
+                    const parameters = parametersPerEntry[entryModule];
+                    const buildMeta = entryModule.buildMeta || entryModule.meta;
+
+                    if (parameters) {
+                        Object.keys(parameters).forEach(n => parameters[n].usage.sort());
+                        buildMeta[buildMetaKey] = { parameters };
+                    } else {
+                        buildMeta[buildMetaKey] = undefined;
                     }
                 });
             };
@@ -220,4 +232,4 @@ function sortByLocale(a, b) {
     return a.localCompare(b);
 };
 
-module.exports = RuntimeParameterWebpackPlugin;
+module.exports = RuntimeParameterPlugin;

@@ -1,0 +1,16 @@
+{
+  "name": "runtime-parameter-webpack-plugin",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Daniil Samoylov <xdansam@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "webpack": ">= 3.0.0"
+  },
+  "dependencies": {},
+  "repository": "git@github.com:dannsam/runtime-parameter-webpack-plugin.git",
+  "devDependencies": {
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
+  }
+}

@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+			"type": "node",
+			"request": "launch",
+			"name": "Launch Webpack 3 Example",
+            "cwd": "${workspaceRoot}/examples/webpack3",
+            "localRoot": "${workspaceRoot}/examples/webpack3",
+			"program": "${workspaceRoot}/examples/webpack3/node_modules/webpack/bin/webpack.js",
+			"args": []
+        },
+        {
+			"type": "node",
+			"request": "launch",
+			"name": "Launch Webpack 4 Example",
+            "cwd": "${workspaceRoot}/examples/webpack4",
+            "localRoot": "${workspaceRoot}/examples/webpack4",
+			"program": "${workspaceRoot}/examples/webpack4/node_modules/webpack/bin/webpack.js",
+			"args": [
+                "--mode",
+                "development"
+			]
+        }
+    ]
+}

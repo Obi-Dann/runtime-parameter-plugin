@@ -1,0 +1,5 @@
+# exclude everythink except package, license and index.js
+**/*
+!index.js
+!LICENSE
+!package.json

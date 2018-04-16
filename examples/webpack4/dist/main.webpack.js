@@ -180,7 +180,6 @@
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_dot_Test, __webpack_runtime_parameter_Features_dot_Test2) {/* harmony import */ var _module1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./module1 */ "../src/module1.ts");
 /* harmony import */ var _module1__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_module1__WEBPACK_IMPORTED_MODULE_0__);
-// import * as Features from 'features-loader!';
 
 if (__webpack_runtime_parameter_Features_dot_Test) {
     console.log('a');

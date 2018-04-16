@@ -73,7 +73,6 @@
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_dot_Test, __webpack_runtime_parameter_Features_dot_Test2) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__module1__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__module1___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__module1__);
-// import * as Features from 'features-loader!';
 
 if (__webpack_runtime_parameter_Features_dot_Test) {
     console.log('a');

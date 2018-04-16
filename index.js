@@ -114,7 +114,7 @@ class RuntimeParameterPlugin {
 
                         definedParameters.push({
                             parameter: d.parameter,
-                            usage: `${readableIdentifier}:${d.loc.start.line}:${d.loc.start.column}`
+                            usage: readableIdentifier
                         });
                     });
 
@@ -129,7 +129,9 @@ class RuntimeParameterPlugin {
                             const parameter = parameters[x.parameter] =
                                 parameters[x.parameter] || { usage: [] };
 
-                            parameter.usage.push(x.usage);
+                            if (parameter.usage.indexOf(x.usage) === -1) {
+                                parameter.usage.push(x.usage);
+                            }
                         }
                     }
                 });

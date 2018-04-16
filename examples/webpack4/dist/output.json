@@ -3,36 +3,35 @@
     "publicPath": "/dist/",
     "chunks": {
       "main": {
-        "size": 536,
+        "size": 487,
         "entry": "/dist/main.webpack.js",
-        "hash": "b69741813a27188e8dec",
+        "hash": "20fe94a31bb062bf2309",
         "css": [],
         "runtimeParameters": {
           "parameters": {
             "Features.Test": {
               "usage": [
-                "../src/index.ts:3:4"
+                "../src/index.ts"
               ]
             },
             "Features.Test2": {
               "usage": [
-                "../src/index.ts:15:4",
-                "../src/index.ts:9:4"
+                "../src/index.ts"
               ]
             },
             "Features.ForModule1": {
               "usage": [
-                "../src/module1.ts:1:4"
+                "../src/module1.ts"
               ]
             },
             "Features.ForAsyncModule": {
               "usage": [
-                "../src/async-module.ts:1:4"
+                "../src/async-module.ts"
               ]
             },
             "Features.ForAsyncModule2": {
               "usage": [
-                "../src/async-module2.ts:1:4"
+                "../src/async-module2.ts"
               ]
             }
           },
@@ -42,19 +41,18 @@
       "another-entry": {
         "size": 206,
         "entry": "/dist/another-entry.webpack.js",
-        "hash": "1fb937c51889a8e61138",
+        "hash": "5f672c05ce72f0439192",
         "css": [],
         "runtimeParameters": {
           "parameters": {
             "Features.ForAsyncModule": {
               "usage": [
-                "../src/async-module.ts:1:4"
+                "../src/async-module.ts"
               ]
             },
             "Features.Test2": {
               "usage": [
-                "../src/another-entry.ts:1:4",
-                "../src/another-entry.ts:7:4"
+                "../src/another-entry.ts"
               ]
             }
           },

@@ -1,4 +1,3 @@
-// import * as Features from 'features-loader!';
 import './module1';
 
 if (Features.Test) {

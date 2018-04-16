@@ -92,7 +92,7 @@
 /******/ 				if (__webpack_require__.nc) {
 /******/ 					script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 				}
-/******/ 				script.src = __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".webpack.js?v=" + {"0":"698d448efdd5922a97cf"}[chunkId] + "";
+/******/ 				script.src = __webpack_require__.p + "" + ({"async-module":"async-module"}[chunkId]||chunkId) + ".webpack.js?v=" + {"0":"e9fbaf2d24339edeb83c","async-module":"790ce67a72604b757ce3"}[chunkId] + "";
 /******/ 				var timeout = setTimeout(function(){
 /******/ 					onScriptComplete({ type: 'timeout', target: script });
 /******/ 				}, 120000);
@@ -164,61 +164,64 @@
 /******/ 	__webpack_require__.rp = window["webpackRuntimeParameters_main"] = window["webpackRuntimeParameters_main"] || {};
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "../src/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/index.ts":
-/*!**********************!*\
-  !*** ./src/index.ts ***!
-  \**********************/
+/***/ "../src/index.ts":
+/*!***********************!*\
+  !*** ../src/index.ts ***!
+  \***********************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_Test, __webpack_runtime_parameter_Features_Test2) {/* harmony import */ var _module1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./module1 */ "./src/module1.ts");
+/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_dot_Test, __webpack_runtime_parameter_Features_dot_Test2) {/* harmony import */ var _module1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./module1 */ "../src/module1.ts");
 /* harmony import */ var _module1__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_module1__WEBPACK_IMPORTED_MODULE_0__);
 // import * as Features from 'features-loader!';
 
-if (__webpack_runtime_parameter_Features_Test) {
+if (__webpack_runtime_parameter_Features_dot_Test) {
     console.log('a');
 }
 else {
     console.log('b');
 }
-if (__webpack_runtime_parameter_Features_Test2) {
+if (__webpack_runtime_parameter_Features_dot_Test2) {
     console.log('a');
 }
 else {
     console.log('b');
 }
-if (__webpack_runtime_parameter_Features_Test2) {
+if (__webpack_runtime_parameter_Features_dot_Test2) {
     console.log('a2');
 }
 else {
     console.log('b');
 }
-__webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./async-module */ "./src/async-module.ts")).then(function (x) {
+__webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./async-module */ "../src/async-module.ts")).then(function (x) {
+});
+__webpack_require__.e(/*! import() | async-module */ "async-module").then(__webpack_require__.bind(null, /*! ./async-module2.ts */ "../src/async-module2.ts")).then(function (module) {
+    // initApp(model);
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["Features"]["Test"], __webpack_require__.rp["Features"]["Test2"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["Features.Test"], __webpack_require__.rp["Features.Test2"]))
 
 /***/ }),
 
-/***/ "./src/module1.ts":
-/*!************************!*\
-  !*** ./src/module1.ts ***!
-  \************************/
+/***/ "../src/module1.ts":
+/*!*************************!*\
+  !*** ../src/module1.ts ***!
+  \*************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_ForModule1) {if (__webpack_runtime_parameter_Features_ForModule1) {
+/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_dot_ForModule1) {if (__webpack_runtime_parameter_Features_dot_ForModule1) {
     console.log('another');
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["Features"]["ForModule1"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["Features.ForModule1"]))
 
 /***/ })
 

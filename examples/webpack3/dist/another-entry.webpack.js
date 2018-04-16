@@ -29,7 +29,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		2: 0
+/******/ 		3: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -69,13 +69,13 @@
 /***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_Test2) {if (__webpack_runtime_parameter_Features_Test2) {
+/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_dot_Test2) {if (__webpack_runtime_parameter_Features_dot_Test2) {
     console.log('a');
 }
 else {
     console.log('b');
 }
-if (__webpack_runtime_parameter_Features_Test2) {
+if (__webpack_runtime_parameter_Features_dot_Test2) {
     console.log('a');
 }
 else {
@@ -84,7 +84,7 @@ else {
 __webpack_require__.e/* import() */(0/* duplicate */).then(__webpack_require__.bind(null, 0)).then(function (x) {
 });
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__.rp["Features"]["Test2"]))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__.rp["Features.Test2"]))
 
 /***/ })
 

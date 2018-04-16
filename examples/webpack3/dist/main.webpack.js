@@ -29,7 +29,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		1: 0
+/******/ 		2: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -71,23 +71,23 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_Test, __webpack_runtime_parameter_Features_Test2) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__module1__ = __webpack_require__(2);
+/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_dot_Test, __webpack_runtime_parameter_Features_dot_Test2) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__module1__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__module1___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__module1__);
 // import * as Features from 'features-loader!';
 
-if (__webpack_runtime_parameter_Features_Test) {
+if (__webpack_runtime_parameter_Features_dot_Test) {
     console.log('a');
 }
 else {
     console.log('b');
 }
-if (__webpack_runtime_parameter_Features_Test2) {
+if (__webpack_runtime_parameter_Features_dot_Test2) {
     console.log('a');
 }
 else {
     console.log('b');
 }
-if (__webpack_runtime_parameter_Features_Test2) {
+if (__webpack_runtime_parameter_Features_dot_Test2) {
     console.log('a2');
 }
 else {
@@ -95,18 +95,21 @@ else {
 }
 __webpack_require__.e/* import() */(0/* duplicate */).then(__webpack_require__.bind(null, 0)).then(function (x) {
 });
+__webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 4)).then(function (module) {
+    // initApp(model);
+});
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__.rp["Features"]["Test"], __webpack_require__.rp["Features"]["Test2"]))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__.rp["Features.Test"], __webpack_require__.rp["Features.Test2"]))
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_ForModule1) {if (__webpack_runtime_parameter_Features_ForModule1) {
+/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_dot_ForModule1) {if (__webpack_runtime_parameter_Features_dot_ForModule1) {
     console.log('another');
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__.rp["Features"]["ForModule1"]))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__.rp["Features.ForModule1"]))
 
 /***/ })
 /******/ ]);

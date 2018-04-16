@@ -13,6 +13,7 @@ if (Features.Test2) {
     console.log('b');
 }
 
+
 if (Features['Test2']) {
     console.log('a2')
 } else {
@@ -21,4 +22,9 @@ if (Features['Test2']) {
 
 import('./async-module').then(x => {
 
+});
+
+
+(System as any).import(/* webpackChunkName: "async-module" */ './async-module2.ts').then((module: any) => {
+    // initApp(model);
 });

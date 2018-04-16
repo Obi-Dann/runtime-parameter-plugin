@@ -92,7 +92,7 @@
 /******/ 				if (__webpack_require__.nc) {
 /******/ 					script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 				}
-/******/ 				script.src = __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".webpack.js?v=" + {"0":"698d448efdd5922a97cf"}[chunkId] + "";
+/******/ 				script.src = __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".webpack.js?v=" + {"0":"e9fbaf2d24339edeb83c"}[chunkId] + "";
 /******/ 				var timeout = setTimeout(function(){
 /******/ 					onScriptComplete({ type: 'timeout', target: script });
 /******/ 				}, 120000);
@@ -164,34 +164,34 @@
 /******/ 	__webpack_require__.rp = window["webpackRuntimeParameters_another-entry"] = window["webpackRuntimeParameters_another-entry"] || {};
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/another-entry.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "../src/another-entry.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/another-entry.ts":
-/*!******************************!*\
-  !*** ./src/another-entry.ts ***!
-  \******************************/
+/***/ "../src/another-entry.ts":
+/*!*******************************!*\
+  !*** ../src/another-entry.ts ***!
+  \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_Test2) {if (__webpack_runtime_parameter_Features_Test2) {
+/* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_Features_dot_Test2) {if (__webpack_runtime_parameter_Features_dot_Test2) {
     console.log('a');
 }
 else {
     console.log('b');
 }
-if (__webpack_runtime_parameter_Features_Test2) {
+if (__webpack_runtime_parameter_Features_dot_Test2) {
     console.log('a');
 }
 else {
     console.log('b');
 }
-__webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./async-module */ "./src/async-module.ts")).then(function (x) {
+__webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./async-module */ "../src/async-module.ts")).then(function (x) {
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["Features"]["Test2"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["Features.Test2"]))
 
 /***/ })
 

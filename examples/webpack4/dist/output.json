@@ -1,0 +1,88 @@
+{
+  "files": {
+    "publicPath": "/dist/",
+    "chunks": {
+      "main": {
+        "size": 536,
+        "entry": "/dist/main.webpack.js",
+        "hash": "b69741813a27188e8dec",
+        "css": [],
+        "runtimeParameters": {
+          "parameters": {
+            "Features.Test": {
+              "usage": [
+                "../src/index.ts:3:4"
+              ]
+            },
+            "Features.Test2": {
+              "usage": [
+                "../src/index.ts:15:4",
+                "../src/index.ts:9:4"
+              ]
+            },
+            "Features.ForModule1": {
+              "usage": [
+                "../src/module1.ts:1:4"
+              ]
+            },
+            "Features.ForAsyncModule": {
+              "usage": [
+                "../src/async-module.ts:1:4"
+              ]
+            },
+            "Features.ForAsyncModule2": {
+              "usage": [
+                "../src/async-module2.ts:1:4"
+              ]
+            }
+          },
+          "variable": "window[\"webpackRuntimeParameters_main\"]"
+        }
+      },
+      "another-entry": {
+        "size": 206,
+        "entry": "/dist/another-entry.webpack.js",
+        "hash": "1fb937c51889a8e61138",
+        "css": [],
+        "runtimeParameters": {
+          "parameters": {
+            "Features.ForAsyncModule": {
+              "usage": [
+                "../src/async-module.ts:1:4"
+              ]
+            },
+            "Features.Test2": {
+              "usage": [
+                "../src/another-entry.ts:1:4",
+                "../src/another-entry.ts:7:4"
+              ]
+            }
+          },
+          "variable": "window[\"webpackRuntimeParameters_another-entry\"]"
+        }
+      }
+    },
+    "js": [
+      "/dist/main.webpack.js",
+      "/dist/another-entry.webpack.js"
+    ],
+    "css": []
+  },
+  "options": {
+    "template": "/Users/dannci/Projects/features-spike/examples/webpack4/node_modules/html-webpack-plugin/lib/loader.js!/Users/dannci/Projects/features-spike/examples/util/output-template.ejs",
+    "filename": "output.json",
+    "hash": false,
+    "inject": false,
+    "compile": true,
+    "favicon": false,
+    "minify": false,
+    "cache": true,
+    "showErrors": true,
+    "chunks": "all",
+    "excludeChunks": [],
+    "chunksSortMode": "auto",
+    "meta": {},
+    "title": "Webpack App",
+    "xhtml": false
+  }
+}

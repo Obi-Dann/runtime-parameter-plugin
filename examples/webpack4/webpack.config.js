@@ -2,7 +2,10 @@ const webpack = require("webpack");
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const RuntimeParameterWebpackPlugin = require('runtime-parameter-webpack-plugin');
+// ensure running the latest version of RuntimeParameterPlugin
+require('../util/copy')(__dirname);
+
+const RuntimeParameterPlugin = require('runtime-parameter-plugin');
 
 /**
  * @return {webpack.Configuration}
@@ -17,8 +20,8 @@ module.exports = function () {
             chunkFilename: '[name].webpack.js?v=[chunkhash]',
         },
         entry: {
-            main: './src/index.ts',
-            'another-entry': './src/another-entry.ts'
+            main: '../src/index.ts',
+            'another-entry': '../src/another-entry.ts'
         },
         module: {
             rules: [
@@ -39,11 +42,14 @@ module.exports = function () {
             }
         },
         plugins: [
-            new RuntimeParameterWebpackPlugin({
-                'Features': path.resolve(__dirname, 'src', 'runtime-features-provider')
-            }),
+            new RuntimeParameterPlugin([
+                'SimpleVar',
+                { name: 'Features', isKeySet: true }
+            ]),
             new HtmlWebpackPlugin({
-                filename: 'HtmlHelpers.cshtml',
+                filename: 'output.json',
+                template: path.resolve('../util/output-template.ejs'),
+                inject: false,
                 templateParameters: (compilation, assets, options) => {
                     compilation.chunks.forEach(chunk => {
                         if (!chunk.hasEntryModule()) {

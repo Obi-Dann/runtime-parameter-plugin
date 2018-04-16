@@ -37,29 +37,33 @@ class RuntimeParameterPlugin {
             const handler = (parser, parserOptions) => {
                 definitions.forEach(d => {
                     const name = typeof d === 'string' ? d : d.name;
+                    const isKeySet = !!d.isKeySet;
 
                     const processExpression = expr => {
-                        let propertyName;
-                        switch (expr.property.type) {
-                            case "Identifier":
-                                propertyName = expr.property.name;
-                                break;
-                            case "Literal":
-                                propertyName = expr.property.value;
-                                break;
-                            default:
-                                return false;
+                        let parameterName;
+                        if (isKeySet) {
+                            switch (expr.property.type) {
+                                case "Identifier":
+                                    parameterName = `${name}.${expr.property.name}`;
+                                    break;
+                                case "Literal":
+                                    parameterName = `${name}.${expr.property.value}`;
+                                    break;
+                                default:
+                                    return false;
+                            }
+                        } else {
+                            parameterName = expr.name;
                         }
 
-                        const combinedName = `${name}.${propertyName}`;
-                        const nameIdentifier = `__webpack_runtime_parameter_${combinedName.replace(/\./g, "_dot_")}`;
-                        const expression = `__webpack_require__.${runtimeParametersExtensionKey}[${JSON.stringify(combinedName)}]`;
+                        const nameIdentifier = `__webpack_runtime_parameter_${parameterName.replace(/\./g, "_dot_")}`;
+                        const expression = `__webpack_require__.${runtimeParametersExtensionKey}[${JSON.stringify(parameterName)}]`;
 
                         if (!ParserHelpers.addParsedVariableToModule(parser, nameIdentifier, expression)) {
                             return false;
                         }
 
-                        var dep = new RuntimeParameterDependency(nameIdentifier, expr.range, combinedName);
+                        var dep = new RuntimeParameterDependency(nameIdentifier, expr.range, parameterName);
                         dep.loc = expr.loc;
                         parser.state.current.addDependency(dep);
 
@@ -67,9 +71,17 @@ class RuntimeParameterPlugin {
                     };
 
                     if (parser.hooks) {
-                        parser.hooks.expressionAnyMember.for(name).tap("RuntimeParameterPlugin", processExpression);
+                        if (isKeySet) {
+                            parser.hooks.expressionAnyMember.for(name).tap("RuntimeParameterPlugin", processExpression);
+                        } else {
+                            parser.hooks.expression.for(name).tap("RuntimeParameterPlugin", processExpression);
+                        }
                     } else {
-                        parser.plugin(`expression ${name}.*`, processExpression);
+                        if (isKeySet) {
+                            parser.plugin(`expression ${name}.*`, processExpression);
+                        } else {
+                            parser.plugin(`expression ${name}`, processExpression);
+                        }
                     }
                 });
             };

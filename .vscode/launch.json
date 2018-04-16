@@ -7,6 +7,17 @@
         {
 			"type": "node",
 			"request": "launch",
+			"name": "Launch Simple Example",
+            "cwd": "${workspaceRoot}/examples/simple",
+            "localRoot": "${workspaceRoot}/examples/simple",
+			"program": "${workspaceRoot}/examples/simple/node_modules/webpack/bin/webpack.js",
+			"args": [
+                "--watch"
+            ]
+        },
+        {
+			"type": "node",
+			"request": "launch",
 			"name": "Launch Webpack 3 Example",
             "cwd": "${workspaceRoot}/examples/webpack3",
             "localRoot": "${workspaceRoot}/examples/webpack3",

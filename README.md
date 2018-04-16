@@ -42,19 +42,19 @@ module.exports = {
 ```js
 
 if (RuntimeVariable_1 === 'a') {
-    consol.log('RuntimeVariable_1 is a');
+    console.log('RuntimeVariable_1 is a');
 }
 
 if (RuntimeVariable_2 === 'b') {
-    consol.log('RuntimeVariable_2 is b');
+    console.log('RuntimeVariable_2 is b');
 }
 
 if (RuntimeVariableSet.Value1 === 'c') {
-    consol.log('RuntimeVariableSet.Value1 is c');
+    console.log('RuntimeVariableSet.Value1 is c');
 }
 
 if (RuntimeVariableSet.Value2 === 'd') {
-    consol.log('RuntimeVariableSet.Value2 is d');
+    console.log('RuntimeVariableSet.Value2 is d');
 }
 
 ```
@@ -76,19 +76,19 @@ if (RuntimeVariableSet.Value2 === 'd') {
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_runtime_parameter_RuntimeVariable_1, __webpack_runtime_parameter_RuntimeVariable_2, __webpack_runtime_parameter_RuntimeVariableSet_dot_Value1, __webpack_runtime_parameter_RuntimeVariableSet_dot_Value2) {if (__webpack_runtime_parameter_RuntimeVariable_1 === 'a') {
-    consol.log('RuntimeVariable_1 is a');
+    console.log('RuntimeVariable_1 is a');
 }
 
 if (__webpack_runtime_parameter_RuntimeVariable_2 === 'b') {
-    consol.log('RuntimeVariable_2 is b');
+    console.log('RuntimeVariable_2 is b');
 }
 
 if (__webpack_runtime_parameter_RuntimeVariableSet_dot_Value1 === 'c') {
-    consol.log('RuntimeVariableSet.Value1 is c');
+    console.log('RuntimeVariableSet.Value1 is c');
 }
 
 if (__webpack_runtime_parameter_RuntimeVariableSet_dot_Value2 === 'd') {
-    consol.log('RuntimeVariableSet.Value2 is d');
+    console.log('RuntimeVariableSet.Value2 is d');
 }
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["RuntimeVariable_1"], __webpack_require__.rp["RuntimeVariable_2"], __webpack_require__.rp["RuntimeVariableSet.Value1"], __webpack_require__.rp["RuntimeVariableSet.Value2"]))
@@ -96,7 +96,7 @@ if (__webpack_runtime_parameter_RuntimeVariableSet_dot_Value2 === 'd') {
 /***/ })
 ```
 
-Now, you can assign window['webpackRuntimeParameters_index'] before loading the bundle to pass variables
+Now, you can assign `window['webpackRuntimeParameters_index']` before loading the bundle to pass variables
 ```html
 
 <script>
@@ -108,4 +108,80 @@ Now, you can assign window['webpackRuntimeParameters_index'] before loading the 
     };
 </script>
 <script src="./index_bundle.js"></script>
+```
+
+
+### Integration with `html-webpack-plugin`
+
+It is possible to return custom template parameters with `html-webpack-plugin`.
+`RuntimeParameterPlugin` has `htmlWebpackPluginTemplateParameters` static method to use with `html-webpack-plugin`.
+It returns the same parameters as `html-webpack-plugin` by default with adding `runtimeParameters` property to each chunk that has them:
+
+```json
+{
+"htmlWebpackPlugin": {
+  "files": {
+    "css": [],
+    "js": [
+      "index_bundle.js"
+    ],
+    "chunks": {
+      "main": {
+        "entry": "index_bundle.js",
+        "css": [],
+        "runtimeParameters": {
+          "parameters": {
+            "RuntimeVariable_1": {
+              "usage": [
+                "./index.js:1:4"
+              ]
+            },
+            "RuntimeVariable_2": {
+              "usage": [
+                "./index.js:5:4"
+              ]
+            },
+            "RuntimeVariableSet.Value1": {
+              "usage": [
+                "./index.js:9:4"
+              ]
+            },
+            "RuntimeVariableSet.Value2": {
+              "usage": [
+                "./index.js:13:4"
+              ]
+            }
+          },
+          "variable": "window[\"webpackRuntimeParameters_main\"]"
+        }
+      }
+    }
+  }
+}
+```
+
+**webpack.config.js**
+```js
+const RuntimeParameterPlugin = require('runtime-parameter-plugin')
++ const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  entry: 'index.js',
+  output: {
+    path: __dirname + '/dist',
+    filename: 'index_bundle.js'
+  },
+  plugins: [
+    new RuntimeParameterPlugin([
+        'RuntimeVariable_1',
+        { name: 'RuntimeVariable_2', isKeySet: false }
+        { name: 'RuntimeVariableSet', isKeySet: true }
+    ]),      
++    new HtmlWebpackPlugin({
++        template: './index.ejs',
++        inject: false,
++        templateParameters: RuntimeParameterPlugin.htmlWebpackPluginTemplateParameters
++    })
+  ]
+}
 ```

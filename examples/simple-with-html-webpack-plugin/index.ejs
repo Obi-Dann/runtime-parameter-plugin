@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <%= htmlWebpackPlugin.options.title %>
+    </title>
+</head>
+
+<body>
+<% for (var chunkName in htmlWebpackPlugin.files.chunks ) {
+    var chunk = htmlWebpackPlugin.files.chunks[chunkName];
+    if (chunk.runtimeParameters) { 
+        var runtimeParameters = chunk.runtimeParameters;
+        var params = runtimeParameters.parameters;
+        var values = ['a', 'b', 'c', 'd'];
+        var idx = 0;
+%>
+    <script>
+        <%= runtimeParameters.variable %> = {<% for(var p in params) { %>
+            <%= JSON.stringify(p) %>: <%= JSON.stringify(values[idx++]) %>,<% } %>
+        }; 
+    </script>
+<% } %> 
+    <script src="<%=chunk.entry.toLowerCase()%>?v=<%=chunk.hash%>"\></script>
+<% } %> 
+</body>
+</html>

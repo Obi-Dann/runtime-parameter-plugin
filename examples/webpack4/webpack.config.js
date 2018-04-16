@@ -50,34 +50,7 @@ module.exports = function () {
                 filename: 'output.json',
                 template: path.resolve('../util/output-template.ejs'),
                 inject: false,
-                templateParameters: (compilation, assets, options) => {
-                    compilation.chunks.forEach(chunk => {
-                        if (!chunk.hasEntryModule()) {
-                            return;
-                        }
-
-                        const asset = assets.chunks[chunk.name];
-                        if (!asset) {
-                            return;
-                        }
-
-                        const buildMeta = chunk.entryModule.buildMeta || chunk.entryModule.meta;
-                        const runtimeParameters = buildMeta.runtimeParameters;
-                        if (runtimeParameters) {
-                            asset.runtimeParameters = runtimeParameters;
-                        }
-                    });
-
-                    return {
-                        compilation: compilation,
-                        webpack: compilation.getStats().toJson(),
-                        webpackConfig: compilation.options,
-                        htmlWebpackPlugin: {
-                            files: assets,
-                            options: options
-                        }
-                    };
-                }
+                templateParameters: RuntimeParameterPlugin.htmlWebpackPluginTemplateParameters
             })
         ]
     };

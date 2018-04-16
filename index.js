@@ -30,7 +30,7 @@ class RuntimeParameterPlugin {
     apply(compiler) {
         const definitions = this.definitions;
 
-        const doStuff = (compilation, { normalModuleFactory }) => {
+        const handleCompilation = (compilation, { normalModuleFactory }) => {
             compilation.dependencyFactories.set(RuntimeParameterDependency, new NullFactory());
             compilation.dependencyTemplates.set(RuntimeParameterDependency, new ConstDependency.Template());
 
@@ -166,10 +166,8 @@ class RuntimeParameterPlugin {
                 }
 
                 const buf = [];
-                var globalObject = compilation.mainTemplate.outputOptions.globalObject || 'window';
-                var ns = `webpackRuntimeParameters_${chunk.name}`;
-                var runtimeParametersVar = `${globalObject}[${JSON.stringify(ns)}] = ${globalObject}[${JSON.stringify(ns)}] || {};`;
-                buildMeta.runtimeParameters.variable = `${globalObject}[${JSON.stringify(ns)}]`;
+                var variable = getRuntimeVariable(chunk);
+                var runtimeParametersVar = `${variable} = ${variable} || {};`;
 
                 buf.push("// Load runtime parameters from global");
                 buf.push(`${compilation.mainTemplate.requireFn}.${runtimeParametersExtensionKey} = ${runtimeParametersVar}`);
@@ -186,12 +184,21 @@ class RuntimeParameterPlugin {
 
         if (compiler.hooks) {
             // webpack 4
-            compiler.hooks.compilation.tap("RuntimeParameterPlugin", doStuff);
+            compiler.hooks.compilation.tap("RuntimeParameterPlugin", handleCompilation);
         } else {
             //
-            compiler.plugin('compilation', doStuff);
+            compiler.plugin('compilation', handleCompilation);
         }
     }
+
+}
+
+function getRuntimeNamespace(chunk) {
+    return `webpackRuntimeParameters_${chunk.name}`;
+}
+
+function getRuntimeVariable(chunk) {
+    return `window[${JSON.stringify(getRuntimeNamespace(chunk))}]`;
 }
 
 function* getEntriesForModule(module) {
@@ -240,8 +247,34 @@ function* getEntryPointsForGroup(group) {
     }
 };
 
-function sortByLocale(a, b) {
-    return a.localCompare(b);
+RuntimeParameterPlugin.htmlWebpackPluginTemplateParameters = (compilation, assets, options) => {
+    compilation.chunks.forEach(chunk => {
+        if (!chunk.hasEntryModule()) {
+            return;
+        }
+
+        const asset = assets.chunks[chunk.name];
+        if (!asset) {
+            return;
+        }
+
+        const buildMeta = chunk.entryModule.buildMeta || chunk.entryModule.meta;
+        const runtimeParameters = buildMeta.runtimeParameters;
+        if (runtimeParameters) {
+            asset.runtimeParameters = runtimeParameters;
+            asset.runtimeParameters.variable = getRuntimeVariable(chunk);
+        }
+    });
+
+    return {
+        compilation: compilation,
+        webpack: compilation.getStats().toJson(),
+        webpackConfig: compilation.options,
+        htmlWebpackPlugin: {
+            files: assets,
+            options: options
+        }
+    };
 };
 
 module.exports = RuntimeParameterPlugin;

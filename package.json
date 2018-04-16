@@ -1,6 +1,6 @@
 {
   "name": "runtime-parameter-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "index.js",
   "author": "Daniil Samoylov <xdansam@gmail.com>",
   "license": "MIT",

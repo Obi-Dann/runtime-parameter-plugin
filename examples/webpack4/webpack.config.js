@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const RuntimeParameterPlugin = require('../../plugin/RuntimeParameterPlugin');
+const RuntimeParameterWebpackPlugin = require('runtime-parameter-webpack-plugin');
 
 /**
  * @return {webpack.Configuration}
@@ -39,7 +39,7 @@ module.exports = function () {
             }
         },
         plugins: [
-            new RuntimeParameterPlugin({
+            new RuntimeParameterWebpackPlugin({
                 'Features': path.resolve(__dirname, 'src', 'runtime-features-provider')
             }),
             new HtmlWebpackPlugin({

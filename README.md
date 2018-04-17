@@ -63,10 +63,6 @@ if (RuntimeVariableSet.Value2 === 'd') {
 ```js
 // ... webpack runtime ...
 
-/******/ 	// Load runtime parameters from global
-/******/ 	__webpack_require__.rp = window["webpackRuntimeParameters_main"] = window["webpackRuntimeParameters_main"] || {};
-
-// ... continue webpack runtime ...
 
 /***/ "./index.js":
 /*!******************!*\
@@ -91,16 +87,29 @@ if (__webpack_runtime_parameter_RuntimeVariableSet_dot_Value2 === 'd') {
     console.log('RuntimeVariableSet.Value2 is d');
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["RuntimeVariable_1"], __webpack_require__.rp["RuntimeVariable_2"], __webpack_require__.rp["RuntimeVariableSet.Value1"], __webpack_require__.rp["RuntimeVariableSet.Value2"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! __webpack_runtime_parameters__ */ 0)["RuntimeVariable_1"], __webpack_require__(/*! __webpack_runtime_parameters__ */ 0)["RuntimeVariable_2"], __webpack_require__(/*! __webpack_runtime_parameters__ */ 0)["RuntimeVariableSet.Value1"], __webpack_require__(/*! __webpack_runtime_parameters__ */ 0)["RuntimeVariableSet.Value2"]))
+
+/***/ }),
+
+/***/ 0:
+/*!**************************************!*\
+  !*** __webpack_runtime_parameters__ ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = window["__webpack_runtime_parameters__"]
 
 /***/ })
+
+/******/ });
 ```
 
-Now, you can assign `window['webpackRuntimeParameters_index']` before loading the bundle to pass variables
+Now, you can assign `window['__webpack_runtime_parameters__']` before loading the bundle to pass variables
 ```html
 
 <script>
-    window['webpackRuntimeParameters_main'] = {
+    window['__webpack_runtime_parameters__'] = {
         'RuntimeVariable_1': 'a',
         'RuntimeVariable_2': 'b',
         'RuntimeVariableSet.Value1': 'c',
@@ -133,26 +142,26 @@ It returns the same parameters as `html-webpack-plugin` by default with adding `
           "parameters": {
             "RuntimeVariable_1": {
               "usage": [
-                "./index.js:1:4"
+                "./index.js"
               ]
             },
             "RuntimeVariable_2": {
               "usage": [
-                "./index.js:5:4"
+                "./index.js"
               ]
             },
             "RuntimeVariableSet.Value1": {
               "usage": [
-                "./index.js:9:4"
+                "./index.js"
               ]
             },
             "RuntimeVariableSet.Value2": {
               "usage": [
-                "./index.js:13:4"
+                "./index.js"
               ]
             }
           },
-          "variable": "window[\"webpackRuntimeParameters_main\"]"
+          "variable": "window[\"__webpack_runtime_parameters__\"]"
         }
       }
     }

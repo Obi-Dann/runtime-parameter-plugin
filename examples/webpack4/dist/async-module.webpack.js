@@ -15,7 +15,7 @@ if (__webpack_runtime_parameter_Features_dot_ForAsyncModule2) {
 }
 var stuff = 'test';
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["Features.ForAsyncModule2"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! __webpack_runtime_parameters__ */ 0)["Features.ForAsyncModule2"]))
 
 /***/ })
 

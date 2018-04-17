@@ -3,60 +3,57 @@
     "publicPath": "/dist/",
     "chunks": {
       "main": {
-        "size": 487,
+        "size": 544,
         "entry": "/dist/main.webpack.js",
-        "hash": "760704e5fff0025f5374",
+        "hash": "28f7b61cd4b1ba105b85",
         "css": [],
         "runtimeParameters": {
           "parameters": {
-            "Features.Test": {
-              "usage": [
-                "../src/index.ts"
-              ]
-            },
-            "Features.Test2": {
-              "usage": [
-                "../src/index.ts"
-              ]
-            },
-            "Features.ForAsyncModule2": {
-              "usage": [
-                "../src/async-module2.ts"
-              ]
-            },
-            "Features.ForModule1": {
-              "usage": [
-                "../src/module1.ts"
-              ]
-            },
-            "Features.ForAsyncModule": {
-              "usage": [
-                "../src/async-module.ts"
-              ]
-            }
+            "Features.Test2": [
+              "../src/another-entry.ts",
+              "../src/index.ts"
+            ],
+            "Features.Test": [
+              "../src/index.ts"
+            ],
+            "Features.ForAsyncModule2": [
+              "../src/async-module2.ts"
+            ],
+            "Features.ForAsyncModule": [
+              "../src/async-module.ts"
+            ],
+            "Features.ForModule1": [
+              "../src/module1.ts"
+            ]
           },
-          "variable": "window[\"webpackRuntimeParameters_main\"]"
+          "variable": "window[\"__webpack_runtime_parameters__\"]"
         }
       },
       "another-entry": {
-        "size": 206,
+        "size": 263,
         "entry": "/dist/another-entry.webpack.js",
-        "hash": "8e8609a62ab13113f2da",
+        "hash": "40778dbaa819917ee134",
         "css": [],
         "runtimeParameters": {
           "parameters": {
-            "Features.Test2": {
-              "usage": [
-                "../src/another-entry.ts"
-              ]
-            },
-            "Features.ForAsyncModule": {
-              "usage": [
-                "../src/async-module.ts"
-              ]
-            }
+            "Features.Test2": [
+              "../src/another-entry.ts",
+              "../src/index.ts"
+            ],
+            "Features.Test": [
+              "../src/index.ts"
+            ],
+            "Features.ForAsyncModule2": [
+              "../src/async-module2.ts"
+            ],
+            "Features.ForAsyncModule": [
+              "../src/async-module.ts"
+            ],
+            "Features.ForModule1": [
+              "../src/module1.ts"
+            ]
           },
-          "variable": "window[\"webpackRuntimeParameters_another-entry\"]"
+          "variable": "window[\"__webpack_runtime_parameters__\"]"
         }
       }
     },

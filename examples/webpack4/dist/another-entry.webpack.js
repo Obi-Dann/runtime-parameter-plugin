@@ -92,7 +92,7 @@
 /******/ 				if (__webpack_require__.nc) {
 /******/ 					script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 				}
-/******/ 				script.src = __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".webpack.js?v=" + {"0":"e9fbaf2d24339edeb83c"}[chunkId] + "";
+/******/ 				script.src = __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".webpack.js?v=" + {"0":"1a9c596a4dce8701cee3"}[chunkId] + "";
 /******/ 				var timeout = setTimeout(function(){
 /******/ 					onScriptComplete({ type: 'timeout', target: script });
 /******/ 				}, 120000);
@@ -160,8 +160,13 @@
 /******/ 	// on error function for async loading
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
-/******/ 	// Load runtime parameters from global
-/******/ 	__webpack_require__.rp = window["webpackRuntimeParameters_another-entry"] = window["webpackRuntimeParameters_another-entry"] || {};
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
+/******/
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = "../src/another-entry.ts");
@@ -191,7 +196,18 @@ else {
 __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./async-module */ "../src/async-module.ts")).then(function (x) {
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["Features.Test2"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! __webpack_runtime_parameters__ */ 0)["Features.Test2"]))
+
+/***/ }),
+
+/***/ 0:
+/*!**************************************!*\
+  !*** __webpack_runtime_parameters__ ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = window["__webpack_runtime_parameters__"]
 
 /***/ })
 

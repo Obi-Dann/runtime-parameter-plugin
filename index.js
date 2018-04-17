@@ -3,10 +3,10 @@
 const ParserHelpers = require("webpack/lib/ParserHelpers");
 const ConstDependency = require("webpack/lib/dependencies/ConstDependency");
 const NullFactory = require("webpack/lib/NullFactory");
-const Template = require('webpack/lib/Template');
+const RawModule = require("webpack/lib/RawModule");
 
-const runtimeParametersExtensionKey = 'rp';
-const buildMetaKey = 'runtimeParameters';
+const runtimeParametersModule = '__webpack_runtime_parameters__'
+const runtimeVariable = `window[${JSON.stringify(runtimeParametersModule)}]`;
 
 class RuntimeParameterDependency extends ConstDependency {
     constructor(expression, range, parameter) {
@@ -57,7 +57,7 @@ class RuntimeParameterPlugin {
                         }
 
                         const nameIdentifier = `__webpack_runtime_parameter_${parameterName.replace(/\./g, "_dot_")}`;
-                        const expression = `__webpack_require__.${runtimeParametersExtensionKey}[${JSON.stringify(parameterName)}]`;
+                        const expression = `require('${runtimeParametersModule}')[${JSON.stringify(parameterName)}]`;
 
                         if (!ParserHelpers.addParsedVariableToModule(parser, nameIdentifier, expression)) {
                             return false;
@@ -100,158 +100,79 @@ class RuntimeParameterPlugin {
                 normalModuleFactory.plugin('parser', handler);
             }
 
-            const addParametersToEntryModulesMeta = () => {
-                const parametersPerEntry = {};
+            const addParametersToRuntimeChunks = () => {
+                const runtimeParameters = {};
 
                 compilation.modules.forEach(module => {
-                    const definedParameters = [];
-
                     module.dependencies.forEach(d => {
                         if (!(d instanceof RuntimeParameterDependency)) {
                             return;
                         }
                         const readableIdentifier = module.readableIdentifier(compilation.requestShortener || compilation.moduleTemplate.requestShortener);
 
-                        definedParameters.push({
-                            parameter: d.parameter,
-                            usage: readableIdentifier
-                        });
-                    });
-
-                    if (!definedParameters.length) {
-                        return;
-                    }
-
-                    for (const entryModule of getEntriesForModule(module)) {
-                        const parameters = parametersPerEntry[entryModule] = parametersPerEntry[entryModule] || {};
-
-                        for (const x of definedParameters) {
-                            const parameter = parameters[x.parameter] =
-                                parameters[x.parameter] || { usage: [] };
-
-                            if (parameter.usage.indexOf(x.usage) === -1) {
-                                parameter.usage.push(x.usage);
-                            }
+                        const usage = runtimeParameters[d.parameter] = runtimeParameters[d.parameter] || [];
+                        if (usage.indexOf(readableIdentifier) === -1) {
+                            usage.push(readableIdentifier);
+                            usage.sort();
                         }
-                    }
+                    });
                 });
 
-                compilation.entries.forEach(entryModule => {
-                    const parameters = parametersPerEntry[entryModule];
-                    const buildMeta = entryModule.buildMeta || entryModule.meta;
-
-                    if (parameters) {
-                        Object.keys(parameters).forEach(n => parameters[n].usage.sort());
-                        buildMeta[buildMetaKey] = { parameters };
-                    } else {
-                        buildMeta[buildMetaKey] = undefined;
+                compilation.chunks.forEach(chunk => {
+                    compilation;
+                    if (chunk.hasRuntime()) {
+                        chunk.runtimeParameters = runtimeParameters;
                     }
                 });
             };
 
             if (compilation.hooks) {
-                compilation.hooks.afterOptimizeChunks.tap('RuntimeParameterPlugin', addParametersToEntryModulesMeta);
+                compilation.hooks.afterOptimizeChunks.tap('RuntimeParameterPlugin', addParametersToRuntimeChunks);
             } else {
-                compilation.plugin('after-optimize-chunks', addParametersToEntryModulesMeta);
+                compilation.plugin('after-optimize-chunks', addParametersToRuntimeChunks);
             }
 
-            const extendWebpackRuntimeToSummply = (source, chunk, hash) => {
-                if (!chunk.entryModule) {
-                    return "";
-                }
-
-                const buildMeta = chunk.entryModule.buildMeta || chunk.entryModule.meta;
-
-                const runtimeParameters = buildMeta[buildMetaKey];
-                if (!runtimeParameters) {
-                    return "";
-                }
-
-                const buf = [];
-                var variable = getRuntimeVariable(chunk);
-                var runtimeParametersVar = `${variable} = ${variable} || {};`;
-
-                buf.push("// Load runtime parameters from global");
-                buf.push(`${compilation.mainTemplate.requireFn}.${runtimeParametersExtensionKey} = ${runtimeParametersVar}`);
-                buf.push("");
-                return (Template.asString || compilation.mainTemplate.asString)(buf);
-            };
-
-            if (compilation.mainTemplate.hooks) {
-                compilation.mainTemplate.hooks.beforeStartup.tap('RuntimeParameterPlugin', extendWebpackRuntimeToSummply);
-            } else {
-                compilation.mainTemplate.plugin('require-extensions', extendWebpackRuntimeToSummply);
-            }
+            this.resolveRuntimeParametersModule(normalModuleFactory);
         };
 
         if (compiler.hooks) {
-            // webpack 4
             compiler.hooks.compilation.tap("RuntimeParameterPlugin", handleCompilation);
         } else {
-            //
             compiler.plugin('compilation', handleCompilation);
         }
     }
 
-}
-
-function getRuntimeNamespace(chunk) {
-    return `webpackRuntimeParameters_${chunk.name}`;
-}
-
-function getRuntimeVariable(chunk) {
-    return `window[${JSON.stringify(getRuntimeNamespace(chunk))}]`;
-}
-
-function* getEntriesForModule(module) {
-    if (module.chunksIterable) {
-        for (const chunk of module.chunksIterable) {
-            yield* getEntryModuleForChunk(chunk)
-        }
-    } else {
-        // webpack 3
-        for (const chunk of module.chunks) {
-            yield* getEntryModuleForChunk(chunk)
-        }
-    }
-}
-
-function* getEntryModuleForChunk(chunk) {
-    if (chunk.entryModule) {
-        yield chunk.entryModule;
-        return;
-    }
-
-    if (chunk.groupsIterable) {
-        // webpack 4
-        for (const group of chunk.groupsIterable) {
-            const entries = getEntryPointsForGroup(group);
-            for (const entryPoint of entries) {
-                yield entryPoint.runtimeChunk.entryModule;
+    resolveRuntimeParametersModule(normalModuleFactory) {
+        const handleResolver = resolver => (data, callback) => {
+            if (data.request !== runtimeParametersModule) {
+                return resolver(data, callback);
             }
-        }
-    } else if (chunk.parents && chunk.parents.length) {
-        // webpack 3
-        for (const parent of chunk.parents) {
-            yield* getEntryModuleForChunk(parent);
+
+            const contextInfo = data.contextInfo;
+            const context = data.context;
+            const request = data.request;
+
+            callback(null,
+                new RawModule(
+                    `module.exports = ${runtimeVariable}`,
+                    `${context} ${request}`,
+                    `${request}`
+                )
+            );
+        };
+
+        if (normalModuleFactory.hooks) {
+            normalModuleFactory.hooks.resolver.tap('RuntimeParameterPlugin', handleResolver);
+        } else {
+            normalModuleFactory.plugin('resolver', handleResolver);
         }
     }
 }
-
-function* getEntryPointsForGroup(group) {
-    if (group.isInitial()) {
-        yield group;
-        return;
-    }
-
-    for (const parent of group.parentsIterable) {
-        yield* getEntryPointsForGroup(parent);
-    }
-};
 
 RuntimeParameterPlugin.htmlWebpackPluginTemplateParameters = (compilation, assets, options) => {
     compilation.chunks.forEach(chunk => {
-        if (!chunk.hasEntryModule()) {
+        const runtimeParameters = chunk.runtimeParameters;
+        if (!runtimeParameters) {
             return;
         }
 
@@ -260,11 +181,11 @@ RuntimeParameterPlugin.htmlWebpackPluginTemplateParameters = (compilation, asset
             return;
         }
 
-        const buildMeta = chunk.entryModule.buildMeta || chunk.entryModule.meta;
-        const runtimeParameters = buildMeta.runtimeParameters;
         if (runtimeParameters) {
-            asset.runtimeParameters = runtimeParameters;
-            asset.runtimeParameters.variable = getRuntimeVariable(chunk);
+            asset.runtimeParameters = {
+                parameters: runtimeParameters,
+                variable: runtimeVariable
+            };
         }
     });
 

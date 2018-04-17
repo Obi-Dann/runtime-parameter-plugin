@@ -92,7 +92,7 @@
 /******/ 				if (__webpack_require__.nc) {
 /******/ 					script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 				}
-/******/ 				script.src = __webpack_require__.p + "" + ({"async-module":"async-module"}[chunkId]||chunkId) + ".webpack.js?v=" + {"0":"e9fbaf2d24339edeb83c","async-module":"790ce67a72604b757ce3"}[chunkId] + "";
+/******/ 				script.src = __webpack_require__.p + "" + ({"async-module":"async-module"}[chunkId]||chunkId) + ".webpack.js?v=" + {"0":"1a9c596a4dce8701cee3","async-module":"a1dc8e92d5e9ff0f1834"}[chunkId] + "";
 /******/ 				var timeout = setTimeout(function(){
 /******/ 					onScriptComplete({ type: 'timeout', target: script });
 /******/ 				}, 120000);
@@ -160,8 +160,13 @@
 /******/ 	// on error function for async loading
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
-/******/ 	// Load runtime parameters from global
-/******/ 	__webpack_require__.rp = window["webpackRuntimeParameters_main"] = window["webpackRuntimeParameters_main"] || {};
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
+/******/
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = "../src/index.ts");
@@ -205,7 +210,7 @@ __webpack_require__.e(/*! import() | async-module */ "async-module").then(__webp
     // initApp(model);
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["Features.Test"], __webpack_require__.rp["Features.Test2"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! __webpack_runtime_parameters__ */ 0)["Features.Test"], __webpack_require__(/*! __webpack_runtime_parameters__ */ 0)["Features.Test2"]))
 
 /***/ }),
 
@@ -220,7 +225,18 @@ __webpack_require__.e(/*! import() | async-module */ "async-module").then(__webp
     console.log('another');
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__.rp["Features.ForModule1"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! __webpack_runtime_parameters__ */ 0)["Features.ForModule1"]))
+
+/***/ }),
+
+/***/ 0:
+/*!**************************************!*\
+  !*** __webpack_runtime_parameters__ ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = window["__webpack_runtime_parameters__"]
 
 /***/ })
 

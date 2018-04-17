@@ -1,6 +1,6 @@
 webpackJsonp([1],{
 
-/***/ 4:
+/***/ 5:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11,7 +11,7 @@ if (__webpack_runtime_parameter_Features_dot_ForAsyncModule2) {
 }
 var stuff = 'test';
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__.rp["Features.ForAsyncModule2"]))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)["Features.ForAsyncModule2"]))
 
 /***/ })
 
